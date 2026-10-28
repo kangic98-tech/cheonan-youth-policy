@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>천안형 청년정책 종합 추진계획</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;700&display=swap">
+<style>
+  /* Layout: sticky section nav over a single scrolling report; navy bands alternate with paper bands */
+  :root {
+    --navy:#14284B; --paper:#F6F7F4; --mist:#EEF1F5; --white:#FFFFFF;
+    --ink:#14284B; --body:#4A5568; --muted:#6B7280; --line:#C9D0DB; --card-line:#DDE2EA;
+    --amber:#9A520C; --gold:#F0B45A; --pale:#C9D3E3;
+    --font:'IBM Plex Sans KR', 'Malgun Gothic', 'Apple SD Gothic Neo', Arial, sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing:border-box }
+  html { scroll-behavior:smooth; scroll-padding-top:72px }
+  body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--font); font-size:17px; line-height:1.6; word-break:keep-all }
+  h1, h2, h3, p { margin:0 }
+  h1, h2 { text-wrap:balance }
+  img { max-width:100%; display:block }
+  .wrap { max-width:1200px; margin:0 auto; padding-left:max(20px, env(safe-area-inset-left, 0px)); padding-right:max(20px, env(safe-area-inset-right, 0px)) }
+  button { font:inherit; color:inherit }
+  :focus-visible { outline:3px solid var(--gold); outline-offset:3px; border-radius:4px }
+
+  /* nav */
+  .nav { position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--navy) 96%, transparent); color:var(--paper); backdrop-filter:blur(8px) }
+  .nav .wrap { display:flex; align-items:center; gap:20px; height:60px }
+  .nav .brand { font-weight:700; font-size:16px; white-space:nowrap }
+  .nav ul { list-style:none; display:flex; gap:4px; margin:0 0 0 auto; padding:0; overflow-x:auto; scrollbar-width:none }
+  .nav ul::-webkit-scrollbar { display:none }
+  .nav a { display:block; padding:8px 12px; border-radius:6px; color:var(--pale); text-decoration:none; font-size:15px; white-space:nowrap }
+  .nav a.on, .nav a:hover { color:var(--paper); background:rgba(255,255,255,.08) }
+  .nav a.on { box-shadow:inset 0 -2px 0 var(--gold) }
+  .progress { position:absolute; left:0; bottom:0; height:3px; width:0; background:var(--gold) }
+
+  section { padding-block:96px }
+  .eyebrow { font-size:15px; font-weight:600; letter-spacing:.12em; color:var(--amber) }
+  .title { font-size:clamp(28px, 4vw, 44px); font-weight:700; line-height:1.3; margin-top:14px }
+  .lead { font-size:clamp(17px, 2vw, 20px); color:var(--body); margin-top:16px; max-width:52em }
+  .dark { background:var(--navy); color:var(--paper) }
+  .dark .eyebrow { color:var(--gold) }
+  .dark .lead { color:var(--pale) }
+  .mist { background:var(--mist) }
+
+  /* hero */
+  .hero { padding:0; background:var(--navy); color:var(--paper) }
+  .hero .wrap { display:grid; grid-template-columns:1.1fr .9fr; gap:48px; align-items:center; min-height:min(720px, 88vh); padding-block:64px }
+  .hero .bar { width:72px; height:6px; background:var(--gold); margin-bottom:28px }
+  .hero .kicker { color:var(--gold); font-weight:600; letter-spacing:.06em; font-size:17px }
+  .hero h1 { font-size:clamp(36px, 5.6vw, 68px); line-height:1.2; margin-top:18px }
+  .hero .sub { font-size:clamp(18px, 2.2vw, 24px); color:var(--pale); margin-top:22px }
+  .hero .msg { margin-top:40px; padding-top:20px; border-top:1px solid rgba(201,211,227,.3); color:var(--pale) }
+  .hero .photo { border-radius:18px; overflow:hidden; aspect-ratio:4/5; box-shadow:0 20px 60px rgba(0,0,0,.35) }
+  .hero .photo img { width:100%; height:100%; object-fit:cover; object-position:42% 50% }
+  .cta { display:inline-flex; gap:8px; align-items:center; margin-top:32px; padding:12px 22px; border-radius:999px; background:var(--gold); color:var(--navy); font-weight:700; text-decoration:none }
+
+  /* stats */
+  .stats { display:grid; grid-template-columns:repeat(4, 1fr); gap:20px; margin-top:48px }
+  .stat { background:var(--white); border:1px solid var(--card-line); border-radius:16px; padding:28px; display:flex; flex-direction:column; gap:8px; min-width:0 }
+  .stat .k { font-size:15px; font-weight:600; color:var(--body) }
+  .stat .v { font-size:clamp(36px, 4vw, 52px); font-weight:700; line-height:1.1; font-variant-numeric:tabular-nums }
+  .stat .d { font-size:15px; color:var(--body) }
+  .stat.key { background:var(--navy); border-color:var(--navy); color:var(--paper) }
+  .stat.key .k { color:var(--gold) } .stat.key .d { color:var(--pale) }
+
+  /* vision */
+  .vision { margin-top:44px; background:var(--navy); color:var(--paper); border-radius:12px; padding:20px 28px; font-size:clamp(18px, 2.2vw, 22px); font-weight:700 }
+  .strategies { display:grid; grid-template-columns:repeat(4, 1fr); gap:20px; margin-top:20px }
+  .strategy { text-align:left; background:var(--white); border:1px solid var(--card-line); border-radius:16px; padding:26px; cursor:pointer; display:flex; flex-direction:column; gap:8px; transition:transform .2s, box-shadow .2s, border-color .2s; min-width:0 }
+  .strategy:hover { transform:translateY(-3px); box-shadow:0 12px 30px rgba(20,40,75,.12); border-color:var(--navy) }
+  .strategy .n { font-size:14px; font-weight:600; color:var(--amber) }
+  .strategy h3 { font-size:22px }
+  .strategy p { font-size:15px; color:var(--body) }
+  .strategy .go { margin-top:auto; padding-top:8px; font-size:14px; font-weight:600; color:var(--navy) }
+
+  /* tabs */
+  .tabs { display:flex; gap:8px; margin-top:40px; flex-wrap:wrap }
+  .tab { border:1px solid var(--line); background:var(--white); border-radius:999px; padding:10px 20px; cursor:pointer; font-weight:600; font-size:16px }
+  .tab[aria-selected="true"] { background:var(--navy); border-color:var(--navy); color:var(--paper) }
+  .panel { margin-top:32px }
+  .panel[hidden] { display:none }
+  .panel .grid { display:grid; grid-template-columns:1fr 420px; gap:40px; align-items:center; margin-top:28px }
+  .panel .grid.noimg { grid-template-columns:1fr }
+  .panel .ptitle { font-size:clamp(24px, 3vw, 34px); font-weight:700; line-height:1.3 }
+  .rows { display:flex; flex-direction:column; min-width:0 }
+  .row { display:grid; grid-template-columns:240px 1fr; gap:24px; padding:20px 0; border-top:1px solid var(--line) }
+  .row:first-child { border-top:2px solid var(--navy) }
+  .row h3 { font-size:19px }
+  .row p { color:var(--body) }
+  .row b { color:var(--ink) }
+  .panel figure { margin:0; border-radius:16px; overflow:hidden; aspect-ratio:14/11 }
+  .panel figure img { width:100%; height:100%; object-fit:cover }
+  .fade-in { animation:fadeIn .4s ease both }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px) } to { opacity:1; transform:none } }
+
+  /* roadmap */
+  .road { display:grid; grid-template-columns:380px 1fr; gap:32px; margin-top:48px; align-items:stretch }
+  .budget { background:var(--navy); color:var(--paper); border-radius:16px; padding:36px; display:flex; flex-direction:column; justify-content:center; gap:10px }
+  .budget .k { color:var(--gold); font-weight:600; font-size:15px }
+  .budget .v { font-size:clamp(44px, 6vw, 72px); font-weight:700; line-height:1.1; font-variant-numeric:tabular-nums }
+  .budget .d { color:var(--pale) }
+  .steps { display:flex; flex-direction:column; gap:20px; min-width:0 }
+  .track { display:grid; grid-template-columns:repeat(3, 1fr); position:relative }
+  .track::before { content:""; position:absolute; left:16.66%; right:16.66%; top:19px; height:3px; background:var(--line) }
+  .track .fill { position:absolute; left:16.66%; top:19px; height:3px; background:var(--amber); transition:width .4s ease }
+  .step { position:relative; background:none; border:0; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:10px; padding:0 4px }
+  .step .dot { width:40px; height:40px; border-radius:50%; background:var(--white); border:3px solid var(--line); display:grid; place-items:center; font-weight:700; font-size:15px; color:var(--muted); transition:all .25s }
+  .step .lbl { font-weight:700; font-size:17px; color:var(--muted) }
+  .step[aria-selected="true"] .dot, .step.done .dot { border-color:var(--amber); background:var(--amber); color:var(--white) }
+  .step[aria-selected="true"] .lbl { color:var(--ink) }
+  .detail { background:var(--white); border:1px solid var(--card-line); border-radius:16px; padding:28px }
+  .detail h3 { font-size:20px }
+  .detail p { color:var(--body); margin-top:8px; font-size:18px }
+
+  /* effects */
+  .effects { display:grid; grid-template-columns:repeat(3, 1fr); gap:36px; margin-top:56px }
+  .effect { border-top:2px solid var(--gold); padding-top:24px; display:flex; flex-direction:column; gap:10px }
+  .effect h3 { font-size:22px }
+  .effect p { color:var(--pale) }
+  footer { background:var(--navy); color:var(--pale); font-size:14px; padding-block:28px; border-top:1px solid rgba(201,211,227,.15) }
+
+  /* reveal */
+  .reveal { transition:opacity .6s ease, transform .6s ease }
+  .js .reveal.pending { opacity:0; transform:translateY(16px) }
+
+  @media (max-width: 900px) {
+    .hero .wrap { grid-template-columns:1fr; min-height:0 }
+    .hero .photo { aspect-ratio:4/3; order:-1 }
+    .stats, .strategies { grid-template-columns:1fr 1fr }
+    .panel .grid, .road { grid-template-columns:1fr }
+    .effects { grid-template-columns:1fr }
+    .row { grid-template-columns:1fr; gap:6px }
+    .nav .brand { display:none }
+    section { padding-block:64px }
+  }
+  @media (max-width: 480px) { .stats, .strategies { grid-template-columns:1fr } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior:auto }
+    *, *::before, *::after { animation:none !important; transition:none !important }
+    .js .reveal.pending { opacity:1; transform:none }
+  }
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js')</script>
+
+<nav class="nav" aria-label="섹션 이동">
+  <div class="wrap">
+    <span class="brand">천안형 청년정책</span>
+    <ul>
+      <li><a href="#background">추진 배경</a></li>
+      <li><a href="#vision">비전·전략</a></li>
+      <li><a href="#programs">주요 사업</a></li>
+      <li><a href="#roadmap">재정·로드맵</a></li>
+      <li><a href="#effects">기대효과</a></li>
+    </ul>
+  </div>
+  <div class="progress" id="progress"></div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <div class="bar"></div>
+      <p class="kicker">2026 천안시 청년정책 종합 추진계획</p>
+      <h1>청년이 머무르는<br>미래도시,<br>천안형 청년정책</h1>
+      <p class="sub">성장에서 정착까지, 청년 친화 생태계 구축</p>
+      <a class="cta" href="#background">계획 살펴보기 ↓</a>
+      <p class="msg">청년의 성장과 자립이 곧 천안시의 미래 경쟁력입니다</p>
+    </div>
+    <div class="photo"><img src="images/independence-hall.jpg" alt="독립기념관 앞 단풍길을 함께 걷는 청년 커플"></div>
+  </div>
+</header>
+
+<section id="background">
+  <div class="wrap">
+    <p class="eyebrow">01 · 추진 배경 및 인구 구조</p>
+    <h2 class="title">전국 최상위 청년 인구 비중과 수도권 이탈 대응</h2>
+    <p class="lead">높은 청년 비중을 자산으로 삼되, 졸업 후 수도권 유출을 막는 정주 여건 조성이 시급합니다</p>
+    <div class="stats">
+      <div class="stat reveal"><p class="k">청년 인구 비중</p><p class="v" data-count="29.9" data-dec="1" data-suffix="%">29.9%</p><p class="d">18~39세 197,572명, 전국 기초지자체 최상위권</p></div>
+      <div class="stat reveal"><p class="k">평균 연령</p><p class="v" data-count="42.4" data-dec="1" data-suffix="세">42.4세</p><p class="d">전국 평균 45.7세보다 3.3세 젊은 도시</p></div>
+      <div class="stat reveal"><p class="k">관내 대학</p><p class="v" data-count="12" data-dec="0" data-suffix="개">12개</p><p class="d">학생 중 대학생 45.8%, 연 8만여 명 상주</p></div>
+      <div class="stat key reveal"><p class="k">핵심 과제</p><p class="v" data-count="50.2" data-dec="1" data-suffix="%">50.2%</p><p class="d">이탈 청년 중 수도권 이동 비율, ‘거쳐 가는 도시’ 탈피 필요</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="vision" class="mist">
+  <div class="wrap">
+    <p class="eyebrow">02 · 비전 및 4대 추진 전략</p>
+    <h2 class="title">성장·자립·정착·참여의 청년 선순환 생태계 구축</h2>
+    <p class="lead">일회성 금전 지원을 넘어 청년 생애주기 전체를 아우르는 종합 지원 체계로 전환합니다</p>
+    <p class="vision reveal">비전 · 청년이 행복한, 희망 가득 청년친화도시 천안</p>
+    <div class="strategies">
+      <button class="strategy reveal" data-go="t1"><span class="n">전략 1</span><h3>교육·일자리</h3><p>RISE 연계, 지역 전략산업 맞춤형 인재 양성</p><span class="go">주요 사업 보기 →</span></button>
+      <button class="strategy reveal" data-go="t2"><span class="n">전략 2</span><h3>주거·복지</h3><p>독립 청년 주거비 절감, 1인 가구 안전망 강화</p><span class="go">주요 사업 보기 →</span></button>
+      <button class="strategy reveal" data-go="t3"><span class="n">전략 3</span><h3>문화·여가</h3><p>대학로 문화예술 활성화, 청년 커뮤니티 공간 확충</p><span class="go">주요 사업 보기 →</span></button>
+      <button class="strategy reveal" data-go="t3"><span class="n">전략 4</span><h3>참여·소통</h3><p>청년 주도 정책 제안, 공공 거버넌스 활성화</p><span class="go">주요 사업 보기 →</span></button>
+    </div>
+  </div>
+</section>
+
+<section id="programs">
+  <div class="wrap">
+    <p class="eyebrow">03–05 · 전략별 주요 사업</p>
+    <div class="tabs" role="tablist" aria-label="전략 선택">
+      <button class="tab" role="tab" id="tab-t1" aria-controls="t1" aria-selected="true">전략 1 교육·일자리</button>
+      <button class="tab" role="tab" id="tab-t2" aria-controls="t2" aria-selected="false" tabindex="-1">전략 2 주거·복지</button>
+      <button class="tab" role="tab" id="tab-t3" aria-controls="t3" aria-selected="false" tabindex="-1">전략 3·4 공간·참여</button>
+    </div>
+
+    <div class="panel" id="t1" role="tabpanel" aria-labelledby="tab-t1">
+      <h2 class="ptitle">지역 산업 연계 일자리 창출과 취·창업 역량 강화</h2>
+      <p class="lead">대학과 지역 산업을 RISE로 긴밀히 연결해 우수 인재의 지역 정착을 유도합니다</p>
+      <div class="grid noimg">
+        <div class="rows">
+          <div class="row"><h3>RISE 사업 본격화</h3><p>관내 12개 대학과 연계한 지역혁신중심 대학지원체계 가동</p></div>
+          <div class="row"><h3>취·창업 플랫폼</h3><p>그린스타트업타운 활성화, 대학일자리플러스센터 운영, 스마트팜 지원</p></div>
+          <div class="row"><h3>구직 단념 예방</h3><p>청년도전지원사업(참여 시 <b>최대 350만 원</b> 수당) 및 청년성장프로젝트 운영</p></div>
+          <div class="row"><h3>면접 지원</h3><p>‘청년의 품격옷장’ 면접정장 무료 대여(<b>연 최대 3회</b>)</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" id="t2" role="tabpanel" aria-labelledby="tab-t2" hidden>
+      <h2 class="ptitle">청년 가계 부담 경감과 밀착형 주거·생활 복지</h2>
+      <p class="lead">주거 고정비를 줄이고, 1인 가구 비율이 높은 청년층의 삶의 질을 높입니다</p>
+      <div class="grid">
+        <div class="rows">
+          <div class="row"><h3>청년월세 특별지원</h3><p>무주택 독립 청년 대상 <b>월 최대 20만 원, 최장 24개월(총 480만 원)</b> 지원</p></div>
+          <div class="row"><h3>임차보증금 이자 지원</h3><p>전세자금 대출 이자 <b>30~50%</b> 지원, 공공임대주택 <b>1,600호 이상</b> 보급</p></div>
+          <div class="row"><h3>1인 가구 맞춤 지원</h3><p>전입 청년 ‘행복꾸러미’ 배부, 안심보안캠 설치 지원</p></div>
+        </div>
+        <figure><img src="images/seongseong-lake.jpg" alt="성성호수공원 벤치에서 여유를 즐기는 청년 커플" loading="lazy"></figure>
+      </div>
+    </div>
+
+    <div class="panel" id="t3" role="tabpanel" aria-labelledby="tab-t3" hidden>
+      <h2 class="ptitle">권역별 청년 공간 조성과 청년 주도 시정 참여</h2>
+      <p class="lead">청년 전용 소통 공간을 거점화하고, 청년이 직접 정책을 만드는 시정 주체로 세웁니다</p>
+      <div class="grid">
+        <div class="rows">
+          <div class="row"><h3>권역별 청년센터 ‘이음’</h3><p>대흥이음(원도심), 불당이음(신도심), 안서이음(대학가) 운영, 천안역 거점센터(본부) 추진</p></div>
+          <div class="row"><h3>천안형 청년도전프로젝트</h3><p>청년 5인 이상 팀의 지역 현안 해결 공모, <b>팀당 최대 1,000만 원</b> 지원</p></div>
+          <div class="row"><h3>문화·소통 활성화</h3><p>유니브시티(Univcity) 페스티벌 개최, 청년정책 아이디어 공모전 운영</p></div>
+        </div>
+        <figure><img src="images/sinbu-cafe-street.jpg" alt="신부동 카페거리에서 커피를 마시며 대화하는 청년 커플" loading="lazy"></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="roadmap" class="mist">
+  <div class="wrap">
+    <p class="eyebrow">06 · 재정 규모 및 단계별 로드맵</p>
+    <h2 class="title">총 951억 원 투입과 연차별 정책 이행 로드맵</h2>
+    <p class="lead">확실한 재정 투입과 체계적인 로드맵으로 정책의 지속가능성을 확보합니다</p>
+    <div class="road">
+      <div class="budget reveal">
+        <p class="k">2026년 재정 투입</p>
+        <p class="v" data-count="951" data-dec="0" data-suffix="억 원">951억 원</p>
+        <p class="d">청년정책 5대 분야 80개 사업</p>
+      </div>
+      <div class="steps reveal">
+        <div class="track" role="tablist" aria-label="단계 선택">
+          <span class="fill" id="fill"></span>
+          <button class="step" role="tab" aria-selected="true" data-step="0"><span class="dot">1</span><span class="lbl">단기 1년</span></button>
+          <button class="step" role="tab" aria-selected="false" data-step="1" tabindex="-1"><span class="dot">2</span><span class="lbl">중기 2~3년</span></button>
+          <button class="step" role="tab" aria-selected="false" data-step="2" tabindex="-1"><span class="dot">3</span><span class="lbl">장기 3~5년</span></button>
+        </div>
+        <div class="detail" id="detail" aria-live="polite">
+          <h3 id="detail-h">단기 1년</h3>
+          <p id="detail-p">청년월세 상시 신청 전환, 면접정장 대여·1인 가구 지원 확대</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="effects" class="dark">
+  <div class="wrap">
+    <p class="eyebrow">07 · 기대효과 및 결론</p>
+    <h2 class="title">청년이 머무르고 꿈을 펼치는 선도적 청년친화도시</h2>
+    <p class="lead">청년 정주율을 높여 지방소멸 위기를 극복하고 도시 성장 동력을 완성합니다</p>
+    <div class="effects">
+      <div class="effect reveal"><h3>정착률 향상</h3><p>주거·일자리 지원으로 수도권 이탈을 막고 대학 인재의 장기 정주 유도</p></div>
+      <div class="effect reveal"><h3>경제 활력</h3><p>지역 전략산업 연계 청년 일자리 창출, 스타트업 생태계 고도화</p></div>
+      <div class="effect reveal"><h3>도시 브랜드</h3><p>대학과 도시가 상생하는 유니브시티(Univcity) 청년 모범도시 확립</p></div>
+    </div>
+  </div>
+</section>
+<footer><div class="wrap">천안형 청년정책 종합 추진계획</div></footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // scroll progress + active nav link
+  const bar = document.getElementById('progress');
+  const links = [...document.querySelectorAll('.nav a')];
+  const secs = links.map(a => document.querySelector(a.getAttribute('href')));
+  function onScroll() {
+    const h = document.documentElement;
+    bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+    let cur = -1;
+    secs.forEach((s, i) => { if (s.getBoundingClientRect().top < 140) cur = i; });
+    links.forEach((a, i) => a.classList.toggle('on', i === cur));
+  }
+  addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+  // reveal + count-up when visible
+  const fmt = (n, d) => n.toLocaleString('ko-KR', { minimumFractionDigits: d, maximumFractionDigits: d });
+  function countUp(el) {
+    const end = parseFloat(el.dataset.count), d = +el.dataset.dec, suf = el.dataset.suffix, t0 = performance.now(), dur = 1200;
+    (function tick(now) {
+      const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(end * e, d) + suf;
+      if (p < 1) requestAnimationFrame(tick); else el.textContent = fmt(end, d) + suf;
+    })(t0);
+  }
+  if ('IntersectionObserver' in window && !reduce) {
+    const items = document.querySelectorAll('.reveal');
+    items.forEach(el => { if (el.getBoundingClientRect().top > innerHeight) el.classList.add('pending'); });
+    const io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      en.target.classList.remove('pending');
+      en.target.querySelectorAll('[data-count]').forEach(countUp);
+      io.unobserve(en.target);
+    }), { threshold: .25 });
+    items.forEach(el => io.observe(el));
+  }
+
+  // strategy tabs
+  const tabs = [...document.querySelectorAll('.tab')];
+  function selectTab(id, focus) {
+    tabs.forEach(t => {
+      const on = t.getAttribute('aria-controls') === id;
+      t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
+      const p = document.getElementById(t.getAttribute('aria-controls'));
+      p.hidden = !on; if (on) { p.classList.remove('fade-in'); void p.offsetWidth; p.classList.add('fade-in'); }
+      if (on && focus) t.focus();
+    });
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => selectTab(t.getAttribute('aria-controls')));
+    t.addEventListener('keydown', e => {
+      const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!k) return;
+      selectTab(tabs[(i + k + tabs.length) % tabs.length].getAttribute('aria-controls'), true);
+    });
+  });
+  document.querySelectorAll('.strategy').forEach(b => b.addEventListener('click', () => {
+    selectTab(b.dataset.go);
+    document.getElementById('programs').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+  }));
+
+  // roadmap steps
+  const STEPS = [
+    ['단기 1년', '청년월세 상시 신청 전환, 면접정장 대여·1인 가구 지원 확대'],
+    ['중기 2~3년', 'RISE 연계 일자리 정착, 천안역 복합캠퍼스타운 내 청년 거점센터 개소'],
+    ['장기 3~5년', '직산 도시개발 공공주택 3,800호 공급, 청년기금 200억 원 조성 완료'],
+  ];
+  const steps = [...document.querySelectorAll('.step')], fill = document.getElementById('fill');
+  const dh = document.getElementById('detail-h'), dp = document.getElementById('detail-p'), box = document.getElementById('detail');
+  function selectStep(n, focus) {
+    steps.forEach((s, i) => { s.setAttribute('aria-selected', i === n); s.tabIndex = i === n ? 0 : -1; s.classList.toggle('done', i < n); });
+    fill.style.width = (n * 33.33) + '%';
+    dh.textContent = STEPS[n][0]; dp.textContent = STEPS[n][1];
+    box.classList.remove('fade-in'); void box.offsetWidth; box.classList.add('fade-in');
+    if (focus) steps[n].focus();
+  }
+  steps.forEach((s, i) => {
+    s.addEventListener('click', () => selectStep(i));
+    s.addEventListener('keydown', e => {
+      const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (!k) return;
+      selectStep((i + k + steps.length) % steps.length, true);
+    });
+  });
+})();
+</script>
+</body>
+</html>
